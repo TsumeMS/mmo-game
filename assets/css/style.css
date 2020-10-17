@@ -1,0 +1,128 @@
+@font-face{
+	font-family: 'TurretRegular';
+	src: url(../fonts/TurretRoad-Regular.ttf);
+	font-weight: normal;
+}
+@font-face{
+	font-family: 'TurretLight';
+	src: url(../fonts/TurretRoad-Regular.ttf);
+	font-weight: lighter;
+}
+@font-face{
+	font-family: 'TurretBold';
+	src: url(../fonts/TurretRoad-Regular.ttf);
+	font-weight: bold;
+}
+*, *:before, *:after{
+	box-sizing: border-box;
+}
+body *{
+	font-family: 'TurretRegular', cursive;
+	position: relative;
+	padding: 15px;
+	margin: 0 5px 5px 0;
+	background-color: #fff;
+	border: 1px solid #000;
+	min-height: 80px;
+	font-size: 16px;
+}
+body *:after{
+	position: absolute;
+	right: 0;
+	top: calc(100% - 80px);
+	content: ' ';
+	border-bottom-style: solid;
+	border-bottom-color: #000;
+	border-bottom-width: 80px;
+	border-left: 10px solid transparent;
+}
+body *:before{
+	position: absolute;
+	left: 0;
+	top: 0;
+	content: ' ';
+	border-top-style: solid;
+	border-top-color: #000;
+	border-top-width: 80px;
+	border-right: 10px solid transparent;
+}
+p, a, form, li{
+	border: none;
+	min-height: auto;
+	margin: 0;
+	padding: 0;
+	text-decoration: none;
+	color: #000;
+}
+p:before, a:before, p:after, a:after, form:before, form:after, li:after, li:before{
+	content: none;
+	border: none;
+}
+input, select, textarea{
+	color: #fff;
+	min-height: auto;
+	background-color: #000;
+	font-weight: bold;
+	border-radius: 50px 0;
+	padding: 5px 25px;
+}
+input[type=submit]{
+	border-radius: 25px;
+}
+menu{
+	display: inline-block;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+menu ul{
+	display: block;
+	text-decoration: none;
+	list-style: none;
+}
+menu ul li{
+	display: inline-block;
+}
+footer{
+	width: 100%;
+	min-height: 100px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#login-form, #register{
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 350px;
+}
+
+.login-form, .register-form{
+	width: 500px;
+	margin: 0 auto;
+}
+.login-form label, .register-form label{
+	display: inline-block;
+	width: 25%;
+}
+.clear-effect, .clear-effect:before, .clear-effect:after{
+	border: none;
+	height: auto;
+	min-height: auto;
+	margin: 0;
+	padding: 0;
+	text-decoration: none;
+	color: #000;
+	content: none;
+	border: none;
+}
+.center{
+	width: 100%;
+	margin: 0 auto;
+}
+.text-right{
+	text-align: right;
+}

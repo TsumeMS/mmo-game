@@ -167,7 +167,7 @@ form input[type="submit"]{
 	font-weight: bold;
 	text-align: center;
 }
-#production .production-item span{
+#production .production-item span.level{
 	font-size: 14px;
 	font-weight: normal;
 	display: block;

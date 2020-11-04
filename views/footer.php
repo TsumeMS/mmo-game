@@ -1,5 +1,5 @@
 <footer>
 	<p>Stworzone przez Michała Stój <?php echo date('Y-m-d') ?>
 </footer>
-<script></script>
+<script src="assets/js/game.js"></script>
 </html>

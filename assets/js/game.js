@@ -23,16 +23,22 @@ var production = {
 
 function productionInit() {
 	for(var building in production) {
+
+		console.log(document.querySelector('#' + building).querySelector('p'));
+
 		production[building].production = document.querySelector('#' + building)
 							   .querySelector('p').querySelector('span').textContent;
 
 	    production[building].level = document.querySelector('#' + building)
 							   .querySelector('span').querySelector('strong').textContent;
-	}
 
-	for(var b in production) {
-		alert(b + ' : ' production[b].production + ' ' + b + ':' production[b].level);
+	    document.querySelector('#' + building).querySelector('button')
+	    						.addEventListener('click', (event) => upgradeBuilding(event));
 	}
+}
+
+function upgradeBuilding(event) {
+	console.log(event);
 }
 
 productionInit();

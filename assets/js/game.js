@@ -24,13 +24,11 @@ var production = {
 function productionInit() {
 	for(var building in production) {
 
-		console.log(document.querySelector('#' + building).querySelector('p'));
+		production[building].production = parseInt(document.querySelector('#' + building)
+							   .querySelector('p').querySelector('span').textContent);
 
-		production[building].production = document.querySelector('#' + building)
-							   .querySelector('p').querySelector('span').textContent;
-
-	    production[building].level = document.querySelector('#' + building)
-							   .querySelector('span').querySelector('strong').textContent;
+	    production[building].level = parseInt(document.querySelector('#' + building)
+							   .querySelector('span').querySelector('strong').textContent);
 
 	    document.querySelector('#' + building).querySelector('button')
 	    						.addEventListener('click', (event) => upgradeBuilding(event));
@@ -38,7 +36,18 @@ function productionInit() {
 }
 
 function upgradeBuilding(event) {
-	console.log(event);
-}
+	var building = event.target.parentElement.id;
+	production[building].level++;
+	production[building].production = Math.floor(production[building].production * 1.2);
 
+	for(var building in production) {
+
+		document.querySelector('#' + building).querySelector('p')
+				.querySelector('span').textContent = production[building].production;
+
+	    document.querySelector('#' + building).querySelector('span')
+	    		.querySelector('strong').textContent = production[building].level;
+	}
+}	
+	
 productionInit();

@@ -48,6 +48,11 @@ function upgradeBuilding(event) {
 	    document.querySelector('#' + building).querySelector('span')
 	    		.querySelector('strong').textContent = production[building].level;
 	}
+
+	fetch('http://kurs.test/?f=saveToFile').then(response => response.json())
+		.then(function(result) {
+			console.log(result);
+		})
 }	
 	
 productionInit();

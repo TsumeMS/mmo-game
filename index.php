@@ -4,6 +4,17 @@ include_once('boot.php');
 
 $view = !empty($_GET['v']) ? $_GET['v'] : 'body';
 $action = !empty($_GET['a']) ? $_GET['a'] : null;
+$function = !empty($_GET['f']) ? $_GET['f'] : null;
+$function = route($function);
+
+if($function != null) {
+	if ($function == 'login') {
+		exit;
+	}
+	$function();
+	return;
+}
+
 if($action !== null) {
 	$action($_POST);
 }	

@@ -151,12 +151,12 @@ form input[type="submit"]{
 	display: flex;
 	flex-direction: column;
 }
-#production{
+#production, #resources{
 	display: flex;
 	justify-content: center;
 	align-items: flex-start;
 }
-#production .production-item{
+#production .production-item, #resources .resources-item{
 	width: 250px;
 	height: 250px;
 	padding: 25px 15px;
@@ -180,4 +180,10 @@ form input[type="submit"]{
 	font-size: 18px;
 	color: #9b59b6;
 	margin: 8px 0;
+}
+#resources .resources-item{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 }

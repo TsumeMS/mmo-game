@@ -11,7 +11,8 @@ if($function != null) {
 	if ($function == 'login') {
 		exit;
 	}
-	$function();
+	var_dump($_POST);
+	$function($_POST, $_GET);
 	return;
 }
 

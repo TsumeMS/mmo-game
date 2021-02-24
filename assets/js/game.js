@@ -35,7 +35,7 @@ function resourcesInit() {
 
 function refreshResources() {
 	// produkcja na minutę
-	for(var resource in resources) {
+	for(var resources in resources) {
 		if (document.querySelector('#' + resource)) {
 			var add;	
 			switch(resource) {
@@ -93,8 +93,12 @@ function upgradeBuilding(event) {
 			data: production
 		})
 	);
+
 	fetch('http://kurs.test/mmo-game/?f=saveToFile', {
 		method: 'POST',
+		headers: {
+			'Content-Type': 'multipart/form-data'
+		},
 		body: data
 	});
 }	

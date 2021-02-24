@@ -1,27 +1,23 @@
 var production = {
 	timberHouse: {
 		level: 1,
-		production: 10
-	},
-	sawmill: {
-		level: 1,
-		production: 10
+		production: 120
 	},
 	query: {
 		level: 1,
-		production: 10
+		production: 240
 	},
 	well: {
 		level: 1,
-		production: 10
+		production: 600
 	},
 	farm: {
 		level: 1,
-		production: 10
+		production: 60
 	},
 }
 
-var resouces = {
+var resources = {
 	wood: 0,
 	stone: 0,
 	aqua: 0,
@@ -29,10 +25,36 @@ var resouces = {
 }
 
 function resourcesInit() {
-	for(var resource in resouces) {
+	for(var resource in resources) {
 		if (document.querySelector('#' + resource)) {
-			resouces[resource] = parseInt(document.querySelector('#' + resource).querySelector('.level')
+			resources[resource] = parseInt(document.querySelector('#' + resource).querySelector('.level')
 								.querySelector('strong').textContent);
+		}
+	}
+}
+
+function refreshResources() {
+	// produkcja na minutę
+	for(var resource in resources) {
+		if (document.querySelector('#' + resource)) {
+			var add;	
+			switch(resource) {
+				case 'wood':
+					add = production['timberHouse'].production / 60;
+					break;
+				case 'stone':
+					add = production['query'].production / 60;
+					break;
+				case 'aqua':
+					add = production['well'].production / 60;
+					break;
+				case 'food':
+					add = production['farm'].production / 60;
+					break;
+			}
+			resources[resource] += add;
+			document.querySelector('#' + resource).querySelector('.level')
+				.querySelector('strong').textContent = Math.floor(resources[resource]);
 		}
 	}
 }
@@ -64,7 +86,20 @@ function upgradeBuilding(event) {
 	    document.querySelector('#' + building).querySelector('span')
 	    		.querySelector('strong').textContent = production[building].level;
 	}
+
+	var data = new FormData();
+	data.append('data', JSON.stringify({
+			fileName: 'buildings',
+			data: production
+		})
+	);
+	fetch('http://kurs.test/mmo-game/?f=saveToFile', {
+		method: 'POST',
+		body: data
+	});
 }	
 	
 productionInit();
 resourcesInit();
+
+setInterval(refreshResources, 1000);

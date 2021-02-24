@@ -3,6 +3,7 @@
 $route = [
 	'login' => [
 		'dashboard',
+		'saveToFile'
 	]
 ];
 

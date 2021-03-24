@@ -1,19 +1,19 @@
 var production = {
 	timberHouse: {
 		level: 1,
-		production: 120
+		production: 10
 	},
 	query: {
 		level: 1,
-		production: 240
+		production: 6
 	},
 	well: {
 		level: 1,
-		production: 600
+		production: 2
 	},
 	farm: {
 		level: 1,
-		production: 60
+		production: 1
 	},
 }
 
@@ -35,21 +35,21 @@ function resourcesInit() {
 
 function refreshResources() {
 	// produkcja na minutę
-	for(var resources in resources) {
+	for(var resource in resources) {
 		if (document.querySelector('#' + resource)) {
-			var add;	
+			var add;
 			switch(resource) {
 				case 'wood':
-					add = production['timberHouse'].production / 60;
+					add = Math.floor(production['timberHouse'].production / 60);
 					break;
 				case 'stone':
-					add = production['query'].production / 60;
+					add = Math.floor(production['query'].production / 60);
 					break;
 				case 'aqua':
-					add = production['well'].production / 60;
+					add = Math.floor(production['well'].production / 60);
 					break;
 				case 'food':
-					add = production['farm'].production / 60;
+					add = Math.floor(production['farm'].production / 60);
 					break;
 			}
 			resources[resource] += add;
@@ -57,16 +57,27 @@ function refreshResources() {
 				.querySelector('strong').textContent = Math.floor(resources[resource]);
 		}
 	}
+
+	fetch('http://kurs.test/mmo-game/?f=saveToFile', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			fileName: 'resources',
+			data: resources
+		})
+	});
 }
 
 function productionInit() {
 	for(var building in production) {
 		if(document.querySelector('#' + building)) {
 			production[building].production = parseInt(document.querySelector('#' + building)
-							   .querySelector('p').querySelector('span').textContent);
+							   .querySelector('p').querySelector('span').textContent) ?? production[building].production;
 
 	    	production[building].level = parseInt(document.querySelector('#' + building)
-							   .querySelector('span').querySelector('strong').textContent);
+							   .querySelector('span').querySelector('strong').textContent) ?? production[building].level;
 
 	    	document.querySelector('#' + building).querySelector('button')
 	    						.addEventListener('click', (event) => upgradeBuilding(event));
@@ -87,22 +98,18 @@ function upgradeBuilding(event) {
 	    		.querySelector('strong').textContent = production[building].level;
 	}
 
-	var data = new FormData();
-	data.append('data', JSON.stringify({
-			fileName: 'buildings',
-			data: production
-		})
-	);
-
 	fetch('http://kurs.test/mmo-game/?f=saveToFile', {
 		method: 'POST',
 		headers: {
-			'Content-Type': 'multipart/form-data'
+			'Content-Type': 'application/json'
 		},
-		body: data
+		body: JSON.stringify({
+                fileName: 'buildings',
+                data: production
+            })
 	});
-}	
-	
+}
+
 productionInit();
 resourcesInit();
 

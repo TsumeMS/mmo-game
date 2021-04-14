@@ -57,17 +57,6 @@ function refreshResources() {
 				.querySelector('strong').textContent = Math.floor(resources[resource]);
 		}
 	}
-
-	fetch('http://kurs.test/mmo-game/?f=saveToFile', {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify({
-			fileName: 'resources',
-			data: resources
-		})
-	});
 }
 
 function productionInit() {
@@ -86,28 +75,13 @@ function productionInit() {
 }
 
 function upgradeBuilding(event) {
+	console.log(JSON.stringify(event));
 	var building = event.target.parentElement.id;
 	production[building].level++;
 	production[building].production = Math.floor(production[building].production * 1.2);
 
-	for(var building in production) {
-		document.querySelector('#' + building).querySelector('p')
-				.querySelector('span').textContent = production[building].production;
-
-	    document.querySelector('#' + building).querySelector('span')
-	    		.querySelector('strong').textContent = production[building].level;
-	}
-
-	fetch('http://kurs.test/mmo-game/?f=saveToFile', {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify({
-                fileName: 'buildings',
-                data: production
-            })
-	});
+	document.querySelector('#' + building).querySelector('.building_level').value = production[building].level++;
+	document.querySelector('#' + building).querySelector('.building_production').value = production[building].production;
 }
 
 productionInit();

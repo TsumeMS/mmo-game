@@ -2,13 +2,15 @@
 
 function saveToFile($postData, $getData)
 {
-    if(empty($postData)) {
-        $postData['data'] = file_get_contents('php://input');
+	$fileName = $postData['data'] ? $postData['data']['fileName'] : $_GET['fileName'];
+	unset($postData['data']['fileName']);
+	$data = [];
+	foreach ($postData['data'] as $key => $value) {
+	    $building = explode('_', $key);
+	    $data[$building[0]][$building[1]] = $value;
     }
-	$data = json_decode($postData['data']);
-	$fileName = $data->fileName ? $data->fileName : $_GET['fileName'];
 	$file = fopen(getcwd() . '/tmp/users/' . $_SESSION['user'] . '/' . $fileName .'.json', "w+");
-	fwrite($file, json_encode($data->data));
+	fwrite($file, json_encode($data));
 	fclose($file);
 	return true;
 }

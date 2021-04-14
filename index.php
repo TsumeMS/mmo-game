@@ -13,7 +13,7 @@ if($function != null) {
 	}
 
 	$function($_POST, $_GET);
-	return;
+	header('location:' . $_SERVER['HTTP_REFERER']);
 }
 
 if($action !== null) {

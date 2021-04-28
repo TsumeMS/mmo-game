@@ -18,10 +18,22 @@ var production = {
 }
 
 var resources = {
-	wood: 0,
-	stone: 0,
-	aqua: 0,
-	food: 0
+	wood: {
+		level: 1,
+		quantity: 0
+	},
+	stone: {
+		level: 1,
+		quantity: 0
+	},
+	aqua: {
+		level: 1,
+		quantity: 0
+	},
+	food: {
+		level: 1,
+		quantity: 0
+	}
 }
 
 function resourcesInit() {
@@ -62,25 +74,20 @@ function refreshResources() {
 function productionInit() {
 	for(var building in production) {
 		if(document.querySelector('#' + building)) {
-			production[building].production = parseInt(document.querySelector('#' + building)
-							   .querySelector('p').querySelector('span').textContent) ?? production[building].production;
-
-	    	production[building].level = parseInt(document.querySelector('#' + building)
-							   .querySelector('span').querySelector('strong').textContent) ?? production[building].level;
-
-	    	document.querySelector('#' + building).querySelector('button')
-	    						.addEventListener('click', (event) => upgradeBuilding(event));
+			var prod = parseInt(document.querySelector('#' + building).querySelector('p').querySelector('span').textContent);
+			production[building].production = prod ? prod : production[building].production;
+			var lev = parseInt(document.querySelector('#' + building).querySelector('span').querySelector('strong').textContent);
+	    	production[building].level = lev ? lev : production[building].level;
 		}
 	}
 }
 
 function upgradeBuilding(event) {
-	console.log(JSON.stringify(event));
 	var building = event.target.parentElement.id;
-	production[building].level++;
+	production[building].level += 1;
 	production[building].production = Math.floor(production[building].production * 1.2);
 
-	document.querySelector('#' + building).querySelector('.building_level').value = production[building].level++;
+	document.querySelector('#' + building).querySelector('.building_level').value = production[building].level;
 	document.querySelector('#' + building).querySelector('.building_production').value = production[building].production;
 }
 

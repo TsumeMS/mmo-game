@@ -49,7 +49,7 @@ function refreshResources() {
 	// produkcja na minutę
 	for(var resource in resources) {
 		if (document.querySelector('#' + resource)) {
-			var add;
+			var add = 0;
 			switch(resource) {
 				case 'wood':
 					add = Math.floor(production['timberHouse'].production / 60);
@@ -64,9 +64,11 @@ function refreshResources() {
 					add = Math.floor(production['farm'].production / 60);
 					break;
 			}
-			resources[resource] += add;
+			resources[resource].quantity += add;
+
 			document.querySelector('#' + resource).querySelector('.level')
 				.querySelector('strong').textContent = Math.floor(resources[resource]);
+			return;
 		}
 	}
 }
@@ -82,16 +84,30 @@ function productionInit() {
 	}
 }
 
-function upgradeBuilding(event) {
+function upgradeBuilding(event, type) {
 	var building = event.target.parentElement.id;
-	production[building].level += 1;
-	production[building].production = Math.floor(production[building].production * 1.2);
+	if(type === 'production') {
+		production[building].level += 1;
+		production[building].production = Math.floor(production[building].production * 1.2);
 
-	document.querySelector('#' + building).querySelector('.building_level').value = production[building].level;
-	document.querySelector('#' + building).querySelector('.building_production').value = production[building].production;
+		document.querySelector('#' + building).querySelector('.building_level').value = production[building].level;
+		document.querySelector('#' + building).querySelector('.building_production').value = production[building].production;
+	} else if(type === 'resources') {
+		resources[building].level += 1;
+		document.querySelector('#' + building).querySelector('.level').value = 'Poziom ' + resources[building].level;
+	}
+}
+
+function readFromFile(fileName, done) {
+	var path = '[gameLink]/tmp/users/[login]/' + fileName + '.json';
+	var result = {};
+	fetch(path).then(resp => resp.json())
+		.then(data => done(data));
 }
 
 productionInit();
 resourcesInit();
+
+readFromFile('buildings', (data) => console.log(data));
 
 setInterval(refreshResources, 1000);

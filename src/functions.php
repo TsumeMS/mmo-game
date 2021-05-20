@@ -18,7 +18,7 @@ function saveToFile($postData, $getData)
 function readFromFile($fileName)
 {
 	$path = getcwd() . '/tmp/users/' . $_SESSION['user'] . '/' . $fileName .'.json';
-	if($path) {
+	if(file_exists($path)) {
 		$data = file_get_contents($path);
 		return json_decode($data);
 	}

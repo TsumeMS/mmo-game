@@ -10,6 +10,7 @@ function login($loginUser) {
 	$hash = hash('sha512', $loginUser['password']);
 	if(!empty($userData) && hash('sha512', $loginUser['password']) == $userData->password) {
 		$_SESSION['user'] = $loginUser['login'];
+		setcookie('user', $loginUser['login']);
 		return true;
 	}
 	if(!empty($userData) && hash('sha512', $loginUser['password']) != $userData->password) {

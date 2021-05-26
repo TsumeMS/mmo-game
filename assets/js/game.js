@@ -99,8 +99,9 @@ function upgradeBuilding(event, type) {
 }
 
 function readFromFile(fileName, done) {
-	var path = '[gameLink]/tmp/users/[login]/' + fileName + '.json';
-	var result = {};
+	var host = window.location.origin + (window.location.pathname ? window.location.pathname : '');
+	var login = document.cookie.split(';').filter(cookie => cookie.indexOf('user=') > -1)[0].substring(5);
+	var path = host + '/tmp/users/' + login + '/' + fileName + '.json';
 	fetch(path).then(resp => resp.json())
 		.then(data => done(data));
 }

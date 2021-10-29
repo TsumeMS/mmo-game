@@ -47,30 +47,34 @@ function resourcesInit() {
 
 function refreshResources() {
 	// produkcja na minutę
-	for(var resource in resources) {
-		if (document.querySelector('#' + resource)) {
-			var add = 0;
-			switch(resource) {
-				case 'wood':
-					add = Math.floor(production['timberHouse'].production / 60);
-					break;
-				case 'stone':
-					add = Math.floor(production['query'].production / 60);
-					break;
-				case 'aqua':
-					add = Math.floor(production['well'].production / 60);
-					break;
-				case 'food':
-					add = Math.floor(production['farm'].production / 60);
-					break;
-			}
-			resources[resource].quantity += add;
+	readFromFile('buildings', function(data) {
+		console.log(data);
+		for(var resource in resources) {
+			if (document.querySelector('#' + resource)) {
+				var add = 0;
+				switch(resource) {
+					case 'wood':
+						add = Math.floor(data['timberHouse'].production / 60);
+						break;
+					case 'stone':
+						add = Math.floor(data['query'].production / 60);
+						break;
+					case 'aqua':
+						add = Math.floor(data['well'].production / 60);
+						break;
+					case 'food':
+						add = Math.floor(data['farm'].production / 60);
+						break;
+				}
 
-			document.querySelector('#' + resource).querySelector('.level')
-				.querySelector('strong').textContent = Math.floor(resources[resource]);
-			return;
+				resources[resource].quantity += add;
+
+				document.querySelector('#' + resource).querySelector('.level')
+					.querySelector('strong').textContent = Math.floor(resources[resource]);
+				return;
+			}
 		}
-	}
+	});
 }
 
 function productionInit() {
@@ -108,7 +112,5 @@ function readFromFile(fileName, done) {
 
 productionInit();
 resourcesInit();
-
-readFromFile('buildings', (data) => console.log(data));
 
 setInterval(refreshResources, 1000);

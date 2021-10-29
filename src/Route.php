@@ -15,7 +15,8 @@ function route($view) {
 		return 'login';
 	}
 	if(isLogin() && ($view == 'login' || $view == 'register')) {
-		return 'dashboard';
+		header('Location: ' . $_SERVER['HTTP_ORIGIN'] . '/mmo-game/?v=dashboard');
+	    return 'dashboard';
 	}
 	return $view;
 }

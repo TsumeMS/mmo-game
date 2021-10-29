@@ -7,7 +7,6 @@ function login($loginUser) {
 	}
 
 	$userData = json_decode(file_get_contents(getcwd() . '/tmp/users/' . $loginUser['login'] . '/data.json', "w+"));
-	$hash = hash('sha512', $loginUser['password']);
 	if(!empty($userData) && hash('sha512', $loginUser['password']) == $userData->password) {
 		$_SESSION['user'] = $loginUser['login'];
 		setcookie('user', $loginUser['login']);

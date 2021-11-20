@@ -1,5 +1,5 @@
 <?php
-    $buildings = readFromFile('resources');
+    $buildings = getResources();
 ?>
 
 <div id="resources">
@@ -13,11 +13,11 @@
             <span class="level">
                 Ilość
                 <strong><?php echo(isset($building->quantity) ? $building->quantity : '0'); ?></strong> /
-                <?php echo((isset($buildings->level) ? $building->level : 1) * 50); ?>
+                <?php echo((isset($building->level) ? $building->level : 1) * 50); ?>
             </span>
-            <small class="level">Poziom <?php echo(isset($buildings->level) ? $buildings->level : '1'); ?></small>
-            <input type="hidden" name="wood-quantity" value="<?php echo(isset($building->quantity) ? $buildings->quantity : '0'); ?>">
-            <input type="hidden" name="wood-level" value="<?php echo(isset($buildings->level) ? $building->level : '1'); ?>">
+            <small class="level">Poziom <?php echo(isset($building->level) ? $building->level : '1'); ?></small>
+            <input type="hidden" name="wood-quantity" value="<?php echo(isset($building->quantity) ? $building->quantity : '0'); ?>">
+            <input type="hidden" name="wood-level" value="<?php echo(isset($building->level) ? $building->level : '1'); ?>">
             <button type="submit" onclick="upgradeBuilding(event, 'resources')">Rozbuduj</button>
         </div>
         <?php endforeach; ?>

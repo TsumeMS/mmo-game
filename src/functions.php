@@ -24,3 +24,27 @@ function readFromFile($fileName)
 	}
 	return null;
 }
+
+function config($name)
+{
+    if(!$name) {
+        return;
+    }
+    $parts = explode('.', $name);
+    if(!file_exists(__DIR__.'/../config/'.$parts[0].'.php')) {
+        return;
+    }
+    $config = require_once(__DIR__.'/../config/'.$parts[0].'.php');
+    for($i = 1; $i < count($parts); ++$i) {
+        if(!empty($config[$parts[$i]])) {
+            $config = $config[$parts[$i]];
+        }
+    }
+    return $config;
+}
+
+function objToArray($obj)
+{
+
+
+}

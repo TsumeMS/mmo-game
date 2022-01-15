@@ -8,8 +8,8 @@
             foreach ($buildings as $name => $building) :
         ?>
         <div class="resources-item" id="<?php echo $name; ?>">
-            <span><img src="assets/img/logs.png" width="32"></span>
-            <label><?php echo $name; ?></label>
+            <span><img src="assets/img/<?php echo getImage($name); ?>" width="32"></span>
+            <label><?php cout($name); ?></label>
             <span class="level">
                 Ilość
                 <strong><?php echo(isset($building->quantity) ? $building->quantity : '0'); ?></strong> /

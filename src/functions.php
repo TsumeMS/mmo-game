@@ -45,6 +45,27 @@ function config($name)
 
 function objToArray($obj)
 {
+    $result = [];
+    foreach ($obj as $key => $value) {
+        $result[$key] = $value;
+    }
+    return $result;
+}
 
-
+function cout($word) {
+    if (!is_string($word)) {
+        echo '';
+        return;
+    }
+    $config = config('default.app');
+    if(file_exists('views/translations/' . $config['lang'] . '.json')) {
+        $translations = json_decode(file_get_contents('views/translations/' . $config['lang'] . '.json'));
+        if (isset($translations->$word)) {
+            echo $translations->$word;
+        } else {
+            echo $word;
+        }
+    } else {
+        echo $word;
+    }
 }

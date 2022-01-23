@@ -2,5 +2,10 @@
   "timberHouse": "Dom drwala",
   "query": "Kopalnia",
   "well": "Studnia",
-  "food": "Jedzenie"
+  "farm": "Farma",
+  "wood": "Drewno",
+  "stone": "Kamień",
+  "aqua": "Woda",
+  "food": "Żywność",
+  "LEVEL": "Poziom"
 }

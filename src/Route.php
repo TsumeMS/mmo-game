@@ -15,7 +15,8 @@ function route($view) {
 		return 'login';
 	}
 	if(isLogin() && ($view == 'login' || $view == 'register')) {
-		header('Location: ' . $_SERVER['HTTP_ORIGIN'] . '/mmo-game/?v=dashboard');
+	    $subdomain = config('default.app.subdomain');
+		header('Location: ' . $_SERVER['HTTP_ORIGIN'] . $subdomain . '/?v=dashboard');
 	    return 'dashboard';
 	}
 	return $view;

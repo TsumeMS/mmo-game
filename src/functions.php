@@ -36,7 +36,7 @@ function config($name)
     }
     $config = include(__DIR__.'/../config/'.$parts[0].'.php');
     for($i = 1; $i < count($parts); ++$i) {
-        if(!empty($config[$parts[$i]])) {
+        if(isset($config[$parts[$i]])) {
             $config = $config[$parts[$i]];
         }
     }

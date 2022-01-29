@@ -158,9 +158,8 @@ form input[type="submit"]{
 }
 #production .production-item, #resources .resources-item{
 	width: 250px;
-	height: 250px;
 	padding: 25px 15px;
-	margin: 0 5px;
+	margin: 0 5px 10px 5px;
 	border: 2px solid white;
 	border-radius: 15px;
 	font-size: 28px;
@@ -176,6 +175,11 @@ form input[type="submit"]{
 	margin-top: 8px;
 	border-radius: 10px;
 }
+#production .production-item span.price{
+	font-size: 18px;
+	display: inline-block;
+	width: 100%;
+}
 #production .production-item p{
 	font-size: 18px;
 	color: #9b59b6;
@@ -189,4 +193,18 @@ form input[type="submit"]{
 }
 .flex-form{
 	display: flex;
+}
+
+#production .production-item button{
+	width: 75%;
+	padding: 10px 0;
+	font-size: 16px;
+	background-color: #9b59b6;
+	border: none;
+	border-radius: 12px;
+	color: #f1c40f;
+	cursor: grab;
+}
+#production .production-item button:hover{
+	background-color: #9b59b690;
 }

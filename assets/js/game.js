@@ -89,7 +89,7 @@ function productionInit() {
 }
 
 function upgradeBuilding(event, type) {
-	var building = event.target.parentElement.id;
+	var building = event.target.parentElement.parentElement.id;
 	if(type === 'production') {
 		production[building].level += 1;
 		production[building].production = Math.floor(production[building].production * 1.2);
@@ -113,4 +113,4 @@ function readFromFile(fileName, done) {
 productionInit();
 resourcesInit();
 
-setInterval(refreshResources, 1000);
+// setInterval(refreshResources, 1000);

@@ -25,6 +25,7 @@ return [
         ]
     ],
     'app' => [
-        'lang' => 'pl'
+        'lang' => 'pl',
+        'subdomain' => '/mmo-game'
     ]
 ];

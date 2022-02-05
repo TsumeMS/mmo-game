@@ -11,19 +11,27 @@ function getResources()
 }
 
 function getImage($buildingName) {
-    $image = '';
+    $image = 'assets/img/default-image.png';
     switch ($buildingName) {
         case 'wood':
-            $image = 'logs.png';
+            if(file_exists(__DIR__ . '/../assets/img/logs.png')) {
+                $image = 'assets/img/logs.png';
+            }
             break;
         case 'stone':
-            $image = 'stone.png';
+            if(file_exists(__DIR__ . '/../assets/img/stone.png')) {
+                $image = 'assets/img/stone.png';
+            }
             break;
         case 'aqua':
-            $image = 'aqua.png';
+            if(file_exists(__DIR__ . '/../assets/img/aqua.png')) {
+                $image = 'assets/img/aqua.png';
+            }
             break;
         case 'food':
-            $image = 'drumstick.png';
+            if(file_exists(__DIR__ . '/../assets/img/drumstick.png')) {
+                $image = 'assets/img/drumstick.png';
+            }
             break;
     }
     return $image;

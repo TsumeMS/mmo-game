@@ -17,11 +17,11 @@
                 <div class="production-item">
                     <button type="submit" onclick="upgradeBuilding(event, 'production')">Rozbuduj</button>
                     <span class="price">
-                        <img src="assets/img/<?php echo getImage('wood') ?>" width="24">
+                        <img src="<?php echo getImage('wood') ?>" width="24">
                         <strong>10</strong>
                     </span>
-                    <span class="price">
-                        <img src="assets/img/<?php echo getImage('stone') ?>" width="24">
+                    <span class="price"production>
+                        <img src="<?php echo getImage('stone') ?>" width="24">
                         <strong>10</strong>
                     </span>
                 </div>

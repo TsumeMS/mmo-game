@@ -1,23 +1,26 @@
-var production = {
+const host = window.location.origin + (window.location.pathname ? window.location.pathname : '');
+const login = document.cookie.split(';').filter(cookie => cookie.indexOf('user=') > -1)[0].substring(5);
+
+let production = {
 	timberHouse: {
 		level: 1,
-		production: 10
+		production: 0
 	},
 	query: {
 		level: 1,
-		production: 6
+		production: 0
 	},
 	well: {
 		level: 1,
-		production: 2
+		production: 0
 	},
 	farm: {
 		level: 1,
-		production: 1
+		production: 0
 	},
 }
 
-var resources = {
+let resources = {
 	wood: {
 		level: 1,
 		quantity: 0
@@ -37,44 +40,45 @@ var resources = {
 }
 
 function resourcesInit() {
-	for(var resource in resources) {
+	for(let resource in resources) {
 		if (document.querySelector('#' + resource)) {
-			resources[resource] = parseInt(document.querySelector('#' + resource).querySelector('.level')
+			resources[resource].level = parseInt(document.querySelector('#' + resource).querySelector('.level')
+								.querySelector('span').textContent);
+			resources[resource].quantity = parseInt(document.querySelector('#' + resource).querySelector('.quantity')
 								.querySelector('strong').textContent);
 		}
 	}
+
+	readFromFile('resources', (data) => {
+		resources = data;
+	});
 }
 
 function refreshResources() {
-	// produkcja na minutę
-	readFromFile('buildings', function(data) {
-		console.log(data);
-		for(var resource in resources) {
-			if (document.querySelector('#' + resource)) {
-				var add = 0;
-				switch(resource) {
-					case 'wood':
-						add = Math.floor(data['timberHouse'].production / 60);
-						break;
-					case 'stone':
-						add = Math.floor(data['query'].production / 60);
-						break;
-					case 'aqua':
-						add = Math.floor(data['well'].production / 60);
-						break;
-					case 'food':
-						add = Math.floor(data['farm'].production / 60);
-						break;
-				}
-
-				resources[resource].quantity += add;
-
-				document.querySelector('#' + resource).querySelector('.level')
-					.querySelector('strong').textContent = Math.floor(resources[resource]);
-				return;
-			}
+	// produkcja na godzinę
+	for(let resource in resources) {
+		let add = 0;
+		switch(resource) {
+			case 'wood':
+				add = production['timberHouse'].production / 3600;
+				break;
+			case 'stone':
+				add = production['query'].production / 3600;
+				break;
+			case 'aqua':
+				add = production['well'].production / 3600;
+				break;
+			case 'food':
+				add = production['farm'].production / 3600;
+				break;
 		}
-	});
+		resources[resource].quantity += add;
+		if (document.querySelector('#' + resource)) {
+			document.querySelector('#' + resource).querySelector('.level')
+				.querySelector('span').textContent = Math.floor(resources[resource]);
+		}
+	}
+	saveToFile('resources', resources);	
 }
 
 function productionInit() {
@@ -86,6 +90,10 @@ function productionInit() {
 	    	production[building].level = lev ? lev : production[building].level;
 		}
 	}
+
+	readFromFile('buildings', (data) => {
+		production = data;
+	});
 }
 
 function upgradeBuilding(event, type) {
@@ -103,14 +111,23 @@ function upgradeBuilding(event, type) {
 }
 
 function readFromFile(fileName, done) {
-	var host = window.location.origin + (window.location.pathname ? window.location.pathname : '');
-	var login = document.cookie.split(';').filter(cookie => cookie.indexOf('user=') > -1)[0].substring(5);
-	var path = host + '/tmp/users/' + login + '/' + fileName + '.json';
+	const path = host + '/tmp/users/' + login + '/' + fileName + '.json';
 	fetch(path).then(resp => resp.json())
 		.then(data => done(data));
+}
+
+const saveToFile = async function (fileName, data) {
+	const path = host + '?f=saveToFile';
+	const formData = new FormData();
+	formData.append('fileName', fileName);
+	formData.append('data', JSON.stringify(data));
+	await fetch(path, {
+		method: 'POST',
+		body: formData
+	});
 }
 
 productionInit();
 resourcesInit();
 
-// setInterval(refreshResources, 1000);
+setInterval(refreshResources, 1000);

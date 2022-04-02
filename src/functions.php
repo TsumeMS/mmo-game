@@ -2,16 +2,28 @@
 
 function saveToFile($postData, $getData)
 {
-	$fileName = $postData['data'] ? $postData['data']['fileName'] : $_GET['fileName'];
-	unset($postData['data']['fileName']);
+    if (isset($postData['fileName'])) {
+        $fileName = $postData['fileName'];
+    } else {
+        $fileName = $postData['data'] ? $postData['data']['fileName'] : $_GET['fileName'];
+        unset($postData['data']['fileName']);
+    }
 	$data = [];
+    if (is_string($postData['data'])) {
+        $obj = json_decode($postData['data']);
+        $data = objToArray($obj);
+    }
 	foreach ($postData['data'] as $key => $value) {
 	    $building = explode('_', $key);
 	    $data[$building[0]][$building[1]] = $value;
     }
-	$file = fopen(getcwd() . '/tmp/users/' . $_SESSION['user'] . '/' . $fileName .'.json', "w+");
-	fwrite($file, json_encode($data));
-	fclose($file);
+	try {
+        $file = fopen(getcwd() . '/tmp/users/' . $_SESSION['user'] . '/' . $fileName .'.json', "w+");
+        fwrite($file, json_encode($data));
+        fclose($file);
+    } catch (Exception $ex) {
+        return false;
+    }
 	return true;
 }
 

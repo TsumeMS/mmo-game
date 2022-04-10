@@ -12,7 +12,7 @@
             <label><?php cout($name); ?></label>
             <span class="quantity">
                 Ilość
-                <strong><?php echo(isset($building->quantity) ? $building->quantity : '0'); ?></strong> /
+                <strong><?php echo(isset($building->quantity) ? (int)$building->quantity : '0'); ?></strong> /
                 <?php echo((isset($building->level) ? $building->level : 1) * 50); ?>
             </span>
             <small class="level">Poziom <span><?php echo(isset($building->level) ? $building->level : '1'); ?></span></small>

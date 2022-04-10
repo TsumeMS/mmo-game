@@ -72,13 +72,16 @@ function refreshResources() {
 				add = production['farm'].production / 3600;
 				break;
 		}
+		if(!canAddResources(resource, add)) {
+			continue;
+		}
 		resources[resource].quantity += add;
 		if (document.querySelector('#' + resource)) {
-			document.querySelector('#' + resource).querySelector('.level')
-				.querySelector('span').textContent = Math.floor(resources[resource]);
+			document.querySelector('#' + resource).querySelector('.quantity')
+				.querySelector('strong').textContent = Math.floor(resources[resource].quantity);
 		}
 	}
-	saveToFile('resources', resources);	
+	saveToFile('resources', resources);
 }
 
 function productionInit() {
@@ -97,23 +100,35 @@ function productionInit() {
 }
 
 function upgradeBuilding(event, type) {
-	var building = event.target.parentElement.parentElement.id;
-	if(type === 'production') {
-		production[building].level += 1;
-		production[building].production = Math.floor(production[building].production * 1.2);
-
-		document.querySelector('#' + building).querySelector('.building_level').value = production[building].level;
-		document.querySelector('#' + building).querySelector('.building_production').value = production[building].production;
-	} else if(type === 'resources') {
-		resources[building].level += 1;
-		document.querySelector('#' + building).querySelector('.level').value = 'Poziom ' + resources[building].level;
+	let building = event.target.parentElement;
+	if (!building.id) {
+		building = building.parentElement;
 	}
+	if(type === 'production') {
+		production[building.id].level = parseInt(production[building.id].level) + 1;
+		production[building.id].production = Math.floor(production[building.id].production * 1.2);
+
+		document.querySelector('#' + building.id).querySelector('.building_level').value = production[building.id].level;
+		document.querySelector('#' + building.id).querySelector('.building_production').value = production[building.id].production;
+	} else if(type === 'resources') {
+		resources[building.id].level += 1;
+		document.querySelector('#' + building.id).querySelector('.level').value = 'Poziom ' + resources[building.id].level;
+	}
+	// ToDo not work fetch
+	// saveToFile('resources', resources);
 }
 
 function readFromFile(fileName, done) {
 	const path = host + '/tmp/users/' + login + '/' + fileName + '.json';
 	fetch(path).then(resp => resp.json())
 		.then(data => done(data));
+}
+
+function canAddResources(resource, add) {
+	if(resources[resource].quantity + add >= resources[resource].level * 50) {
+		return false;
+	}
+	return true;
 }
 
 const saveToFile = async function (fileName, data) {
@@ -124,10 +139,10 @@ const saveToFile = async function (fileName, data) {
 	await fetch(path, {
 		method: 'POST',
 		body: formData
-	});
+	}).catch(err => console.log(err));
 }
 
 productionInit();
 resourcesInit();
 
-setInterval(refreshResources, 1000);
+// setInterval(refreshResources, 1000);

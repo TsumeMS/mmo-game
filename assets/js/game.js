@@ -73,9 +73,10 @@ function refreshResources() {
 				break;
 		}
 		if(!canAddResources(resource, add)) {
-			continue;
+			resources[resource].quantity = resources[resource].level * 50;
+		} else {
+			resources[resource].quantity += add;
 		}
-		resources[resource].quantity += add;
 		if (document.querySelector('#' + resource)) {
 			document.querySelector('#' + resource).querySelector('.quantity')
 				.querySelector('strong').textContent = Math.floor(resources[resource].quantity);
@@ -85,11 +86,11 @@ function refreshResources() {
 }
 
 function productionInit() {
-	for(var building in production) {
+	for(let building in production) {
 		if(document.querySelector('#' + building)) {
-			var prod = parseInt(document.querySelector('#' + building).querySelector('p').querySelector('span').textContent);
+			let prod = parseInt(document.querySelector('#' + building).querySelector('p').querySelector('span').textContent);
 			production[building].production = prod ? prod : production[building].production;
-			var lev = parseInt(document.querySelector('#' + building).querySelector('span').querySelector('strong').textContent);
+			let lev = parseInt(document.querySelector('#' + building).querySelector('span').querySelector('strong').textContent);
 	    	production[building].level = lev ? lev : production[building].level;
 		}
 	}
@@ -100,6 +101,7 @@ function productionInit() {
 }
 
 function upgradeBuilding(event, type) {
+	event.preventDefault();
 	let building = event.target.parentElement;
 	if (!building.id) {
 		building = building.parentElement;
@@ -114,8 +116,10 @@ function upgradeBuilding(event, type) {
 		resources[building.id].level += 1;
 		document.querySelector('#' + building.id).querySelector('.level').value = 'Poziom ' + resources[building.id].level;
 	}
-	// ToDo not work fetch
-	// saveToFile('resources', resources);
+	// ToDo not work fetch -> fixed by preventDefault()
+	saveToFile('resources', resources)
+		.then(() => document.querySelector(`#${type}Buildings`).submit())
+		.catch(error => console.log(error));
 }
 
 function readFromFile(fileName, done) {
@@ -125,10 +129,7 @@ function readFromFile(fileName, done) {
 }
 
 function canAddResources(resource, add) {
-	if(resources[resource].quantity + add >= resources[resource].level * 50) {
-		return false;
-	}
-	return true;
+	return resources[resource].quantity + add < resources[resource].level * 50;
 }
 
 const saveToFile = async function (fileName, data) {
@@ -145,4 +146,4 @@ const saveToFile = async function (fileName, data) {
 productionInit();
 resourcesInit();
 
-// setInterval(refreshResources, 1000);
+setInterval(refreshResources, 1000);

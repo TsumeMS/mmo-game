@@ -3,7 +3,7 @@
 ?>
 
 <div id="production">
-    <form method="POST" action="?f=saveToFile" class="flex-form">
+    <form method="POST" action="?f=saveToFile" class="flex-form" id="productionBuildings">
         <input type="hidden" name="data[fileName]" value="buildings">
         <?php foreach ($buildings as $buildingName => $building) : ?>
             <div id="<?php echo $buildingName; ?>">

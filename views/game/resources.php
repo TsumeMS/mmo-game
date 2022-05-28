@@ -3,7 +3,7 @@
 ?>
 
 <div id="resources">
-    <form method="POST" action="?f=saveToFile" class="flex-form">
+    <form method="POST" action="?f=saveToFile" class="flex-form" id="resourcesBuildings">
         <?php
             foreach ($buildings as $name => $building) :
         ?>

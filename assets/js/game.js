@@ -85,20 +85,20 @@ function refreshResources() {
 	saveToFile('resources', resources);
 }
 
-function productionInit() {
-	for(let building in production) {
-		if(document.querySelector('#' + building)) {
-			let prod = parseInt(document.querySelector('#' + building).querySelector('p').querySelector('span').textContent);
-			production[building].production = prod ? prod : production[building].production;
-			let lev = parseInt(document.querySelector('#' + building).querySelector('span').querySelector('strong').textContent);
-	    	production[building].level = lev ? lev : production[building].level;
-		}
-	}
-
-	readFromFile('buildings', (data) => {
-		production = data;
-	});
-}
+// function productionInit() {
+// 	for(let building in production) {
+// 		if(document.querySelector('#' + building)) {
+// 			let prod = parseInt(document.querySelector('#' + building).querySelector('p').querySelector('span').textContent);
+// 			production[building].production = prod ? prod : production[building].production;
+// 			let lev = parseInt(document.querySelector('#' + building).querySelector('span').querySelector('strong').textContent);
+// 	    	production[building].level = lev ? lev : production[building].level;
+// 		}
+// 	}
+//
+// 	readFromFile('buildings', (data) => {
+// 		production = data;
+// 	});
+// }
 
 function upgradeBuilding(event, type) {
 	event.preventDefault();

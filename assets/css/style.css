@@ -195,7 +195,8 @@ form input[type="submit"]{
 	display: flex;
 }
 
-#production .production-item button{
+#production .production-item button,
+#resources .resources-item button{
 	width: 75%;
 	padding: 10px 0;
 	font-size: 16px;
@@ -203,8 +204,17 @@ form input[type="submit"]{
 	border: none;
 	border-radius: 12px;
 	color: #f1c40f;
+            
 	cursor: grab;
 }
 #production .production-item button:hover{
 	background-color: #9b59b690;
+}
+#resources .resources-item .quantity{
+    font-size: 18px;
+    padding: 1rem 0;
+}
+#resources .resources-item .level{
+    font-size: 20px;
+    margin-bottom: .5rem;
 }

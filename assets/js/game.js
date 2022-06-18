@@ -106,7 +106,7 @@ function upgradeBuilding(event, type) {
 	if (!building.id) {
 		building = building.parentElement;
 	}
-	if(type === 'production') {
+	if(type === 'production' && enoughResources(type, production[building.id], building.id)) {
 		production[building.id].level = parseInt(production[building.id].level) + 1;
 		production[building.id].production = Math.floor(production[building.id].production * 1.2);
 
@@ -116,7 +116,7 @@ function upgradeBuilding(event, type) {
 		resources[building.id].level += 1;
 		document.querySelector('#' + building.id).querySelector('.level').value = 'Poziom ' + resources[building.id].level;
 	}
-	// ToDo not work fetch -> fixed by preventDefault()
+
 	saveToFile('resources', resources)
 		.then(() => document.querySelector(`#${type}Buildings`).submit())
 		.catch(error => console.log(error));
@@ -130,6 +130,20 @@ function readFromFile(fileName, done) {
 
 function canAddResources(resource, add) {
 	return resources[resource].quantity + add < resources[resource].level * 50;
+}
+
+function enoughResources(type, building, buildingName) {
+	const basePrice = 10;
+	return fetch(host + '/config/config.json').then(resp => resp.json())
+		.then(data => {
+			const mods = data.upgradeBuilding[type][buildingName];
+
+			let priceWood = Math.floor(basePrice * Math.pow(mods.wood, building.level));
+			let priceStone = Math.floor(basePrice * Math.pow(mods.stone, building.level));
+
+			// return czy można zwiększyć poziom => true / false
+
+		});
 }
 
 const saveToFile = async function (fileName, data) {

@@ -1,0 +1,22 @@
+{
+  "upgradeBuilding": {
+    "production": {
+      "timberHouse": {
+        "wood": 2.5,
+        "stone": 1.75
+      },
+      "query": {
+        "wood": 1.75,
+        "stone": 2.5
+      },
+      "well": {
+        "wood": 1.5,
+        "stone": 2
+      },
+      "farm": {
+        "wood": 3,
+        "stone": 2.2
+      }
+    }
+  }
+}
